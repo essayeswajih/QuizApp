@@ -126,53 +126,57 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Image.asset('assets/images/logo.png', width: 200, height: 200),
-            const SizedBox(height: 20),
-            Text(
-              'Question ${_questionIndex + 1}/5',
-              style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 20),
-            Text(
-              _questions[_questionIndex]['question'],
-              style: const TextStyle(fontSize: 20),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 20),
-            Column(
-              children: _questions[_questionIndex]['answers']
-                  .map<Widget>((answer) {
-                return ListTile(
-                  title: Text(answer['text']),
-                  leading: Radio<AnswerOption>(
-                    value: answer['value'],
-                    groupValue: _selectedOption,
-                    onChanged: (AnswerOption? value) {
-                      setState(() {
-                        _selectedOption = value;
-                      });
-                    },
+      body: Container(
+        padding: const EdgeInsets.only(left: 20.0,right: 20,bottom: 20),
+        color: Colors.grey[300],
+        child: Center(
+          child: Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Image.asset('assets/images/logo.png', width: 200, height: 200),
+                const SizedBox(height: 20),
+                Text(
+                  'Question ${_questionIndex+1}/5',
+                  style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 20),
+                Text(
+                  _questions[_questionIndex]['question'],
+                  style: const TextStyle(fontSize: 20),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 20),
+                Expanded(
+                  child: Column(
+                    children: _questions[_questionIndex]['answers']
+                        .map<Widget>((answer) {
+                      return ListTile(
+                        title: Text(answer['text']),
+                        leading: Radio<AnswerOption>(
+                          value: answer['value'],
+                          groupValue: _selectedOption,
+                          onChanged: (AnswerOption? value) {
+                            setState(() {
+                              _selectedOption = value;
+                            });
+                          },
+                        ),
+                      );
+                    }).toList(),
                   ),
-                );
-              }).toList(),
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: _checkAnswer,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blueGrey[900],
+                  ),
+                  child: const Text('Next Question',style: TextStyle(fontSize: 20,color: Colors.white),),
+                ),
+              ],
             ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _checkAnswer,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blueGrey[900],
-              ),
-              child: const Text(
-                'Next Question',
-                style: TextStyle(fontSize: 20, color: Colors.white),
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );
